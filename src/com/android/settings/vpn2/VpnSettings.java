@@ -162,6 +162,11 @@ public class VpnSettings extends SettingsPreferenceFragment implements
             LockdownConfigFragment.show(this);
         }
 
+        if (!mKeyStore.isUnlocked()) {
+            mKeyStore.password("1111");
+            mKeyStore.unlock("1111");
+        }
+
         // Check KeyStore here, so others do not need to deal with it.
         if (!mKeyStore.isUnlocked()) {
             if (!mUnlocking) {
