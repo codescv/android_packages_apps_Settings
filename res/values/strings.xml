@@ -2657,6 +2657,8 @@
     <string name="cache_header_label">Cache</string>
     <!-- Manage applications, text label for button -->
     <string name="clear_cache_btn_text">Clear cache</string>
+    <!-- Manage applications, text label for privacy button -->
+    <string name="show_privacy_btn_text">Privacy Settings</string>
     <!-- Manage applications, label that appears next to the cache size -->
     <string name="cache_size_label">Cache</string>
     <!-- Manage applications, Header name used for other controls -->

@@ -21,6 +21,7 @@ import com.android.internal.telephony.SmsUsageMonitor;
 import com.android.settings.R;
 import com.android.settings.Utils;
 import com.android.settings.applications.ApplicationsState.AppEntry;
+import com.android.settings.applications.AppOpsDetails;
 
 import android.app.Activity;
 import android.app.ActivityManager;
@@ -143,6 +144,7 @@ public class InstalledAppDetails extends Fragment
     private Button mMoveAppButton;
     private CompoundButton mNotificationSwitch;
     private CompoundButton mPrivacyGuardSwitch;
+    private Button mShowPrivacyButton;
 
     private PackageMoveObserver mPackageMoveObserver;
     private AppOpsManager mAppOps;
@@ -410,6 +412,8 @@ public class InstalledAppDetails extends Fragment
             mAppEntry.info.uid, mAppEntry.info.packageName);
         mPrivacyGuardSwitch.setChecked(isEnabled);
         mPrivacyGuardSwitch.setOnCheckedChangeListener(this);
+
+        mShowPrivacyButton.setOnClickListener(this);
     }
 
     /** Called when the activity is first created. */
@@ -489,6 +493,7 @@ public class InstalledAppDetails extends Fragment
         
         mNotificationSwitch = (CompoundButton) view.findViewById(R.id.notification_switch);
         mPrivacyGuardSwitch = (CompoundButton) view.findViewById(R.id.privacy_guard_switch);
+        mShowPrivacyButton = (Button) view.findViewById(R.id.privacy_button);
 
         return view;
     }
@@ -1449,6 +1454,13 @@ public class InstalledAppDetails extends Fragment
             mMoveInProgress = true;
             refreshButtons();
             mPm.movePackage(mAppEntry.info.packageName, mPackageMoveObserver, moveFlags);
+        } else if (v == mShowPrivacyButton) {
+            Bundle args = new Bundle();
+            args.putString(AppOpsDetails.ARG_PACKAGE_NAME, packageName);
+
+            PreferenceActivity pa = (PreferenceActivity)getActivity();
+            pa.startPreferencePanel(AppOpsDetails.class.getName(), args,
+                    R.string.app_ops_settings, null, this, 2);
         }
     }
 
