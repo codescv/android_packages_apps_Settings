@@ -22,6 +22,7 @@ import com.android.settings.R;
 import com.android.settings.Utils;
 import com.android.settings.applications.ApplicationsState.AppEntry;
 import com.android.settings.applications.AppOpsDetails;
+import com.android.settings.SubSettings;
 
 import android.app.Activity;
 import android.app.ActivityManager;
@@ -1455,12 +1456,15 @@ public class InstalledAppDetails extends Fragment
             refreshButtons();
             mPm.movePackage(mAppEntry.info.packageName, mPackageMoveObserver, moveFlags);
         } else if (v == mShowPrivacyButton) {
+            PreferenceActivity pa = (PreferenceActivity)getActivity();
+            Intent intent = new Intent(pa, SubSettings.class);
+            intent.putExtra(PreferenceActivity.EXTRA_SHOW_FRAGMENT, AppOpsDetails.class.getName());
             Bundle args = new Bundle();
             args.putString(AppOpsDetails.ARG_PACKAGE_NAME, packageName);
-
-            PreferenceActivity pa = (PreferenceActivity)getActivity();
-            pa.startPreferencePanel(AppOpsDetails.class.getName(), args,
-                    R.string.app_ops_settings, null, this, 2);
+            intent.putExtra(PreferenceActivity.EXTRA_SHOW_FRAGMENT_ARGUMENTS, args);
+            intent.putExtra(PreferenceActivity.EXTRA_NO_HEADERS, true);
+            intent.putExtra(PreferenceActivity.EXTRA_SHOW_FRAGMENT_TITLE, R.string.app_ops_settings);
+            pa.startActivity(intent);
         }
     }
 
