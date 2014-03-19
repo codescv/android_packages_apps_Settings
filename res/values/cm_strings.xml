@@ -325,6 +325,7 @@
     <string name="title_tile_lte">LTE</string>
     <string name="title_tile_mobiledata">Mobile data</string>
     <string name="title_tile_profile">Profile</string>
+    <string name="title_tile_power_menu">Power Menu</string>
     <string name="title_tile_performance_profile">Performance profile</string>
     <string name="title_tile_autorotate">Orientation</string>
     <string name="title_tile_settings">Settings</string>
