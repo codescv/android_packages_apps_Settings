@@ -18,6 +18,7 @@ package com.android.settings.quicksettings;
 
 import static com.android.internal.util.cm.QSConstants.TILES_DEFAULT;
 import static com.android.internal.util.cm.QSConstants.TILE_AIRPLANE;
+import static com.android.internal.util.cm.QSConstants.TILE_ADB;
 import static com.android.internal.util.cm.QSConstants.TILE_AUTOROTATE;
 import static com.android.internal.util.cm.QSConstants.TILE_BATTERY;
 import static com.android.internal.util.cm.QSConstants.TILE_BLUETOOTH;
@@ -156,6 +157,9 @@ public class QuickSettingsUtil {
                 "com.android.systemui:drawable/ic_qs_wifi_ap_on"));
         registerTile(new QuickSettingsUtil.TileInfo(
                 TILE_NETWORKADB, R.string.title_tile_network_adb,
+                "com.android.systemui:drawable/ic_qs_network_adb_off"));
+        registerTile(new QuickSettingsUtil.TileInfo(
+                TILE_ADB, R.string.title_tile_adb,
                 "com.android.systemui:drawable/ic_qs_network_adb_off"));
     }
 
