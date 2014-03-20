@@ -97,7 +97,7 @@ public class QuickSettingsUtil {
                 "com.android.systemui:drawable/ic_qs_sleep"));
         registerTile(new QuickSettingsUtil.TileInfo(
                 TILE_POWER, R.string.title_tile_power_menu,
-                "com.android.systemui:drawable/ic_qs_sleep"));
+                "com.android.systemui:drawable/ic_qs_power"));
         registerTile(new QuickSettingsUtil.TileInfo(
                 TILE_GPS, R.string.title_tile_gps,
                 "com.android.systemui:drawable/ic_qs_location_on"));
@@ -160,7 +160,7 @@ public class QuickSettingsUtil {
                 "com.android.systemui:drawable/ic_qs_network_adb_off"));
         registerTile(new QuickSettingsUtil.TileInfo(
                 TILE_ADB, R.string.title_tile_adb,
-                "com.android.systemui:drawable/ic_qs_network_adb_off"));
+                "com.android.systemui:drawable/ic_qs_adb_off"));
     }
 
     private static void registerTile(QuickSettingsUtil.TileInfo info) {
