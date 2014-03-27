@@ -46,6 +46,8 @@ import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
+import android.preference.PreferenceManager;
+import android.content.SharedPreferences;
 
 import com.android.internal.net.LegacyVpnInfo;
 import com.android.internal.net.VpnConfig;
@@ -67,6 +69,8 @@ public class VpnSettings extends SettingsPreferenceFragment implements
     private static final String TAG_LOCKDOWN = "lockdown";
 
     private static final String EXTRA_PICK_LOCKDOWN = "android.net.vpn.PICK_LOCKDOWN";
+
+    private static final String KEY_SETTINGS_VPN_NEED_PASSWORD = "vpn_need_password";
 
     // TODO: migrate to using DialogFragment when editing
 
@@ -115,6 +119,8 @@ public class VpnSettings extends SettingsPreferenceFragment implements
         if (SystemProperties.getBoolean("persist.radio.imsregrequired", false)) {
             menu.findItem(R.id.vpn_lockdown).setVisible(false);
         }
+
+        menu.findItem(R.id.vpn_need_password).setChecked(vpnNeedsPassword());
     }
 
     @Override
@@ -134,6 +140,18 @@ public class VpnSettings extends SettingsPreferenceFragment implements
             }
             case R.id.vpn_lockdown: {
                 LockdownConfigFragment.show(this);
+                return true;
+            }
+            case R.id.vpn_need_password: {
+                boolean needPassword = vpnNeedsPassword();
+                needPassword = !needPassword;
+                item.setChecked(needPassword);
+                setVpnNeedsPassword(needPassword);
+                if (needPassword) {
+                    mKeyStore.reset();
+                    Credentials.getInstance().unlock(getActivity());
+                    mUnlocking = true;
+                }
                 return true;
             }
         }
@@ -162,9 +180,9 @@ public class VpnSettings extends SettingsPreferenceFragment implements
             LockdownConfigFragment.show(this);
         }
 
-        if (!mKeyStore.isUnlocked()) {
-            mKeyStore.password("1111");
-            mKeyStore.unlock("1111");
+        if (!vpnNeedsPassword() && !mKeyStore.isUnlocked()) {
+            mKeyStore.password("");
+            mKeyStore.unlock("");
         }
 
         // Check KeyStore here, so others do not need to deal with it.
@@ -377,6 +395,19 @@ public class VpnSettings extends SettingsPreferenceFragment implements
             mUpdater.sendEmptyMessageDelayed(0, 1000);
         }
         return true;
+    }
+
+    private boolean vpnNeedsPassword() {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        boolean needPassword = prefs.getBoolean(KEY_SETTINGS_VPN_NEED_PASSWORD, false);
+        return needPassword;
+    }
+
+    private void setVpnNeedsPassword(boolean needPassword) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putBoolean(KEY_SETTINGS_VPN_NEED_PASSWORD, needPassword);
+        editor.commit();
     }
 
     private void connect(VpnProfile profile) throws Exception {

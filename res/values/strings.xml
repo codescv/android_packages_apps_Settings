@@ -3915,6 +3915,9 @@
     <!-- Title of preference to enter the VPN settings activity -->
     <string name="vpn_settings_title">VPN</string>
 
+    <!-- VPN require lockdown toggle -->
+    <string name="vpn_need_password">Require Password</string>
+
     <!-- Title of preference group for credential storage settings [CHAR LIMIT=30] -->
     <string name="credentials_title">Credential storage</string>
     <!-- Title of preference to install certificates from SD card [CHAR LIMIT=30] -->
